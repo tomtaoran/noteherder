@@ -8,7 +8,11 @@ class App extends Component {
     this.state={
       notes:{
       },
-      thisNote:{},
+      thisNote:{
+        id:null,
+        title:'',
+        body:''
+      },
     }
   }
 
