@@ -30,7 +30,11 @@ class NoteForm extends Component{
        // console.log(ev.target.value)
        const note = {...this.state.note}
        note[ev.target.name]=ev.target.value
+       if(this.state.note.title===''){
+            this.props.setEmptyNote(false)
+       }
        this.setState({note}, ()=>{this.props.saveNote(this.state.note)}) //callback value have to be a functoin
+       
     }
 
     handleDelete= (ev)=>{
@@ -57,7 +61,7 @@ class NoteForm extends Component{
                 <textarea name="body" placeholder="Just start typing..." onChange={this.handleChanges} value={this.state.note.body}></textarea>
               </p>
               
-              <button type="button" onClick={this.handleDelete}>Delete</button>
+              <button onClick={this.handleDelete}><i className="fa fa-trash-o"></i></button>
             </form>
             </div>
         )

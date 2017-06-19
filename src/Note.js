@@ -11,7 +11,8 @@ const Note=(props)=>{
     props.openThisNote(thisNote)
 
     }
-    return (<li onClick={openNote}>
+    return (<a onClick={() => props.setCurrentNoteId(props.note.id)}>
+            <li onClick={openNote}>
             <div className="note">
               <div className="note-id invisible">{props.note.id}</div>
               <div className="note-title">
@@ -23,7 +24,8 @@ const Note=(props)=>{
                 </p>
               </div>
             </div>
-          </li>)
+          </li>
+          </a>)
 }
 
 export default Note

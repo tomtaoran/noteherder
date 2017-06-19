@@ -7,9 +7,9 @@ import './Main.css'
 const Main = (props) =>{
     return (
         <div className="Main">
-        <Sidebar newNote={props.newNote}/>
-        <NoteList notes={props.notes} openNote={props.openNote}/>
-        <NoteForm saveNote={props.saveNote} thisNote={props.thisNote} deleteNote={props.deleteNote}/>
+        <Sidebar thisNote={props.thisNote} newNote={props.newNote} signOut={props.signOut} emptyNote={props.emptyNote} setEmptyNote={props.setEmptyNote}/>
+        <NoteList notes={props.notes} openNote={props.openNote} setCurrentNoteId={props.setCurrentNoteId}/>
+        <NoteForm saveNote={props.saveNote} thisNote={props.thisNote} deleteNote={props.deleteNote} setEmptyNote={props.setEmptyNote}/>
         </div>
     )
 }
