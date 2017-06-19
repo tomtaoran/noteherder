@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import Main from './Main'
+import base, {auth} from './base'
+import SignIn from './Signin'
+import SignOut from './SignOut'
 
 class App extends Component {
   constructor(){
@@ -8,6 +11,7 @@ class App extends Component {
     this.state={
       notes:{
       },
+      uid: null,
       //Note: we have to make thisNote a templete while initiazing, otherwise, React will define it as blank object, which can't insert value directly
       thisNote:{
         id:null,
@@ -16,6 +20,44 @@ class App extends Component {
       },
     }
   }
+
+  componentWillMount(){
+    auth.onAuthStateChanged(
+      (user) => {
+        if (user) {
+          this.authHandler(user)
+        }
+      }
+    )
+  }
+
+  syncNotes = () => {
+    base.syncState(
+      `${this.state.uid}/notes`,
+      {
+        context: this,
+        state: 'notes',
+      }
+    )
+  }
+
+
+  signedIn= ()=> {
+    return this.state.uid
+  }
+
+  signOut = () =>{
+    
+    auth.signOut().then(this.setState({uid: null}))
+  }
+
+  authHandler = (userData) => {
+    this.setState(
+      { uid: userData.uid },
+      this.syncNotes
+    )
+  }
+
 
   saveNote = (note)=>{
     if(!note.id){
@@ -46,12 +88,19 @@ class App extends Component {
     this.setState({ thisNote: note })
   }
 
+  renderMain= () => {
+
+      return (<div>
+        <SignOut signOut={this.signOut}/>
+      <Main notes={this.state.notes} saveNote={this.saveNote} deleteNote={this.deleteNote} 
+        openNote={this.openNote} thisNote={this.state.thisNote} newNote={this.newNote}/>
+        </div>)
+  }
 
   render() {
     return (
       <div className="App">
-        <Main notes={this.state.notes} saveNote={this.saveNote} deleteNote={this.deleteNote} 
-        openNote={this.openNote} thisNote={this.state.thisNote} newNote={this.newNote}/>
+        {this.signedIn() ? this.renderMain() : <SignIn authHandler={this.authHandler}/>}
       </div>
     );
   }

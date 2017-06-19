@@ -1,0 +1,1 @@
+# Copy base.example.js to base.js and configure it correctly with credentials from firebase.google.com
