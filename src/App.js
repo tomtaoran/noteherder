@@ -8,6 +8,7 @@ class App extends Component {
     this.state={
       notes:{
       },
+      //Note: we have to make thisNote a templete while initiazing, otherwise, React will define it as blank object, which can't insert value directly
       thisNote:{
         id:null,
         title:'',

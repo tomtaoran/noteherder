@@ -46,6 +46,7 @@ class NoteForm extends Component{
 
     render(){
         // As a backup method: <button type="submit">Save and New</button>
+        // here is what I am talking about: if we are an empty object, there is no definition on this.state.note.title and it is uncontrolled initially then...
         return (
             <div className="NoteForm">
             <form onSubmit={this.handleSubmit}>
