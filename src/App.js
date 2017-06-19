@@ -7,9 +7,10 @@ class App extends Component {
     super()
     this.state={
       notes:{
-        },
-      }
+      },
+      thisNote:{},
     }
+  }
 
   saveNote = (note)=>{
     if(!note.id){
@@ -20,10 +21,21 @@ class App extends Component {
     this.setState({notes})
   }
 
+  deleteNote=(note)=>{
+    const notes = {...this.state.notes} //Although doable, but it is not standard since it is object not array
+    delete notes[note.id] 
+    this.setState({notes})
+  }
+
+  openNote=(note)=>{
+    this.setState({ thisNote: note })
+  }
+
+
   render() {
     return (
       <div className="App">
-        <Main notes={this.state.notes} saveNote={this.saveNote}/>
+        <Main notes={this.state.notes} saveNote={this.saveNote} deleteNote={this.deleteNote} openNote={this.openNote} thisNote={this.state.thisNote}/>
       </div>
     );
   }

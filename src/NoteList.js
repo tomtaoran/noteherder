@@ -2,12 +2,12 @@ import React from 'react'
 import Note from './Note'
 import './NoteList.css'
 
-const NoteList = ({notes})=>{
+const NoteList = (props)=>{
  return (<div className="NoteList">
         <h3>Notes</h3>
         <ul id="notes">
-        {Object.keys(notes).map((noteId)=>{
-          return <Note note={notes[noteId]} key={noteId} />
+        {Object.keys(props.notes).map((noteId)=>{
+          return <Note note={props.notes[noteId]} key={noteId} openThisNote={props.openNote}/>
         })}
           {/*<li>
               <div className="note">

@@ -7,10 +7,16 @@ class NoteForm extends Component{
         super(props)
 
         this.state= {
-            note:this.blankNote(),
-
+            note: (props.thisNote === null ? this.blankNote() : props.thisNote),
         }
     }
+
+    componentWillReceiveProps = (newProps) => {
+        if (this.props.thisNote.id !== newProps.thisNote.id) {
+            this.setState({ note: newProps.thisNote === null ? this.blankNote() : newProps.thisNote })
+        }
+    }
+
 
     blankNote= ()=>{
         return {
@@ -25,6 +31,12 @@ class NoteForm extends Component{
        const note = {...this.state.note}
        note[ev.target.name]=ev.target.value
        this.setState({note}, ()=>{this.props.saveNote(this.state.note)}) //callback value have to be a functoin
+    }
+
+    handleDelete= (ev)=>{
+       // console.log(ev.target.value)
+       this.props.deleteNote(this.state.note)
+       this.setState({note: this.blankNote()})
     }
     
     handleSubmit = (ev)=>{
@@ -43,6 +55,7 @@ class NoteForm extends Component{
                 <textarea name="body" placeholder="Just start typing..." onChange={this.handleChanges} value={this.state.note.body}></textarea>
               </p>
               <button type="submit">Save and New</button>
+              <button type="button" onClick={this.handleDelete}>Delete</button>
             </form>
             </div>
         )
