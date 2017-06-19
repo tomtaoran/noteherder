@@ -45,6 +45,7 @@ class NoteForm extends Component{
     }
 
     render(){
+        // As a backup method: <button type="submit">Save and New</button>
         return (
             <div className="NoteForm">
             <form onSubmit={this.handleSubmit}>
@@ -54,7 +55,7 @@ class NoteForm extends Component{
               <p>
                 <textarea name="body" placeholder="Just start typing..." onChange={this.handleChanges} value={this.state.note.body}></textarea>
               </p>
-              <button type="submit">Save and New</button>
+              
               <button type="button" onClick={this.handleDelete}>Delete</button>
             </form>
             </div>

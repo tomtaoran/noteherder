@@ -4,13 +4,23 @@ import newHover from './new-hover.png'
 import newIcon from './new.png'
 import './Sidebar.css'
 
-const Sidebar= ()=>{
+const Sidebar= (props)=>{
+  function createNote(ev) {
+    const note = {
+      id: null,
+      title: '',
+      body: '',
+    }
+    props.newNote(note)
+  }
+
+
  return (
     <nav className="Sidebar">
         <div className="logo">
           <img src={quill} alt="Noteherder" />
         </div>
-        <button className="new-note">
+        <button className="new-note" onClick={createNote}>
           <img src={newHover} alt="New note" />
           <img className="outline" src={newIcon} alt="New note" />
         </button>
