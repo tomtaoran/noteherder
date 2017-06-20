@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Main from './Main'
 import base, {auth} from './base'
-import SignIn from './Signin'
+import SignInWithGit from './SigninWithGit'
+import SignInWithGoogle from './SigninWithGoogle'
 import SignOut from './SignOut'
 
 class App extends Component {
@@ -123,7 +124,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.signedIn() ? this.renderMain() : <SignIn />}
+        {this.signedIn() ? this.renderMain() : <SignInWithGit />}
+        {this.signedIn() ? this.renderMain() : <SignInWithGoogle />}
       </div>
     );
   }
