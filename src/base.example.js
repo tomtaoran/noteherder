@@ -16,5 +16,6 @@ const app = firebase.initializeApp({
 
   export const auth = app.auth()
   export const githubProvider = new firebase.auth.GithubAuthProvider()
-
+  export const googleProvider =new firebase.auth.GoogleAuthProvider()
+  //You need to enable firebase console for multile user account with same email address first!
   export default Rebase.createClass(db)

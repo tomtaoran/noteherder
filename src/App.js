@@ -38,7 +38,7 @@ class App extends Component {
 
   syncNotes = () => {
     this.ref= base.syncState(
-      `${this.state.uid}/notes`,
+      `notes/${this.state.uid}`,
       {
         context: this,
         state: 'notes',
@@ -56,6 +56,11 @@ class App extends Component {
     .then(()=>{
       base.removeBinding(this.ref)
       //Stop syncing with Firebase
+      this.setState({uid: null, notes: {}, thisNote:{
+        id:null,
+        title:'',
+        body:''
+      }})
     })
   }
 
@@ -109,12 +114,11 @@ class App extends Component {
         deleteNote: this.deleteNote,
         setCurrentNoteId: this.setCurrentNoteId,
       }
-      return (<div>
+      return (
       <Main notes={this.state.notes} {...actions} 
         openNote={this.openNote} thisNote={this.state.thisNote} 
         newNote={this.newNote} signOut={this.signOut}
-        emptyNote={this.state.emptyNote} setEmptyNote={this.setEmptyNote}/>
-        </div>)
+        emptyNote={this.state.emptyNote} setEmptyNote={this.setEmptyNote}/>)
   }
 
   setEmptyNote = (bool) =>{
