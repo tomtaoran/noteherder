@@ -14,20 +14,42 @@ class NoteForm extends Component{
     componentWillReceiveProps(nextProps){
         const newId = nextProps.match.params.id
         if (newId) {
-      if (newId !== this.props.thisNote.id) {
-        const note = nextProps.notes[newId]
-        if (note) {
-          this.props.setCurrentNote(note)
-        } else if (Object.keys(nextProps.notes).length > 0) {
-          this.props.history.push('/notes')
+            if (newId !== this.props.thisNote.id) {
+                const note = nextProps.notes[newId]
+                if (note) {
+                this.props.setCurrentNote(note)
+                } else if (Object.keys(nextProps.notes).length > 0) {
+            this.props.history.push('/notes')
+            //This part tells us if we manually submit a wired notes
+        }else{
+            if (this.props.thisNote.id) {
+            //debugger
+      this.props.resetCurrentNote()
+      //This is for creating new note and if statement detectes for loading (at that point, this.props can be Object Empty)
+    }
+        } 
+            
+            }
+        } 
+    }
+    /*A Super Confusing One, I don't know why You have to do those logics if the only thing
+    you need to do is to "reRender" when new posts exists and should be shown
+        componentWillReceiveProps(nextProps){
+        const newId = nextProps.match.params.id
+        if (newId) {
+        if (newId !== this.props.thisNote.id) {
+            const note = nextProps.notes[newId]
+            if (note) {
+            this.props.setCurrentNote(note)
+            } else if (Object.keys(nextProps.notes).length > 0) {
+            this.props.history.push('/notes')
+            }
         }
-      }
     } else if (this.props.thisNote.id) {
       this.props.resetCurrentNote()
     }
 
-        }
-        
+        }*/
 
 
     blankNote= ()=>{

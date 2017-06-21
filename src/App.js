@@ -4,7 +4,6 @@ import './App.css';
 import Main from './Main'
 import base, {auth} from './base'
 import SignIn from './SignIn'
-import SignOut from './SignOut'
 
 class App extends Component {
   constructor(){

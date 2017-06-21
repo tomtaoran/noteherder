@@ -13,11 +13,6 @@ const Sidebar= (props)=>{
       return
     }
     
-    const note = {
-      id: null,
-      title: '',
-      body: '',
-    }
     props.setEmptyNote(true)
   }
 
