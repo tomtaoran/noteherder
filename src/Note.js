@@ -1,4 +1,5 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import './Note.css'
 const Note=(props)=>{
      function openNote(ev){
@@ -8,10 +9,10 @@ const Note=(props)=>{
       title: li.childNodes[0].childNodes[1].textContent,
       body: li.childNodes[0].childNodes[2].textContent,
     }
-    props.openThisNote(thisNote)
+    //props.openThisNote(thisNote)
 
     }
-    return (<a onClick={() => props.setCurrentNoteId(props.note.id)}>
+    return (<NavLink to={`/notes/${props.note.id}`}>
             <li onClick={openNote}>
             <div className="note">
               <div className="note-id invisible">{props.note.id}</div>
@@ -25,7 +26,7 @@ const Note=(props)=>{
               </div>
             </div>
           </li>
-          </a>)
+          </NavLink>)
 }
 
 export default Note

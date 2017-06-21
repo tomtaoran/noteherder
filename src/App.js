@@ -13,7 +13,6 @@ class App extends Component {
       notes:{
       },
       uid: null,
-      currentNoteId:null,
       emptyNote:false,
       //Note: we have to make thisNote a templete while initiazing, otherwise, React will define it as blank object, which can't insert value directly
       thisNote:{
@@ -55,10 +54,16 @@ class App extends Component {
     )
   }
 
-
   signedIn= ()=> {
     return this.state.uid
   }
+
+  stopSyncing = ()=>{
+    if(this.ref){
+      base.removeBinding(this.ref)
+    }
+  }
+
 
   signOut = () =>{
     auth.signOut()
@@ -66,11 +71,7 @@ class App extends Component {
       this.stopSyncing()
       //base.removeBinding(this.ref)
       //Stop syncing with Firebase
-      this.setState({uid: null, notes: {}, thisNote:{
-        id:null,
-        title:'',
-        body:''
-      }})
+      this.setState({uid: null, notes: {}, thisNote:this.blankNote()})
     })
   }
 
@@ -82,15 +83,27 @@ class App extends Component {
     )
   }
 
+  blankNote = ()=>{
+    return{
+      id: null,
+      title:'',
+      body:'',
+    }
+  }
 
   saveNote = (note)=>{
+    let shouldRedirect= false
     if(!note.id){
       note.id=`note-${Date.now()}`
+      shouldRedirect = true
     }
     //alert(note.title)
     const notes = {...this.state.notes} //Although doable, but it is not standard since it is object not array
     notes[note.id]=note
-    this.setState({notes})
+    this.setState({notes, thisNote:note})
+    if (shouldRedirect){
+      this.props.history.push(`/notes/${note.id}`)
+    }
   }
 
   newNote= (note)=>{
@@ -109,6 +122,16 @@ class App extends Component {
     // This is NON-Firebase version: delete notes[note.id] 
     notes[note.id]= null
     this.setState({notes})
+    this.resetCurrentNote()
+    this.props.history.push('/notes')
+  }
+
+  setCurrentNote= (note)=>{
+    this.setState({thisNote: note})
+  }
+
+  resetCurrentNote = ()=>{
+    this.setCurrentNote(this.blankNote())
   }
 
   openNote=(note)=>{
@@ -119,22 +142,22 @@ class App extends Component {
     this.setState({currentNoteId: noteId})
   }
 
-  stopSyncing = ()=>{
-    if(this.ref){
-      base.removeBinding(this.ref)
-    }
-  }
-
   renderMain= () => {
       const actions = {
         saveNote: this.saveNote,
         deleteNote: this.deleteNote,
-        setCurrentNoteId: this.setCurrentNoteId,
+        setCurrentNote: this.setCurrentNote,
+        resetCurrentNote:this.resetCurrentNote,
+        openNote: this.openNote,
+        newNote: this.newNote,
+        signOut:this.signOut
+      }
+      const noteData={
+        notes: this.state.notes,
+        thisNote: this.state.thisNote
       }
       return (
-      <Main notes={this.state.notes} {...actions} 
-        openNote={this.openNote} thisNote={this.state.thisNote} 
-        newNote={this.newNote} signOut={this.signOut}
+      <Main {...noteData} {...actions}  
         emptyNote={this.state.emptyNote} setEmptyNote={this.setEmptyNote}/>)
   }
 
@@ -146,7 +169,15 @@ class App extends Component {
      const actions = {
         saveNote: this.saveNote,
         deleteNote: this.deleteNote,
-        setCurrentNoteId: this.setCurrentNoteId,
+        setCurrentNote: this.setCurrentNote,
+        resetCurrentNote:this.resetCurrentNote,
+        openNote: this.openNote,
+        newNote: this.newNote,
+        signOut:this.signOut
+      }
+      const noteData={
+        notes: this.state.notes,
+        thisNote: this.state.thisNote
       }
 
     return (
@@ -154,9 +185,7 @@ class App extends Component {
         <Switch>
           <Route path="/notes" render={()=>
             this.signedIn() ?
-            <Main notes={this.state.notes} {...actions} 
-        openNote={this.openNote} thisNote={this.state.thisNote} 
-        newNote={this.newNote} signOut={this.signOut}
+            <Main {...noteData} {...actions}  
         emptyNote={this.state.emptyNote} setEmptyNote={this.setEmptyNote}/>
         : <Redirect to="/sign-in" />
            }/>
