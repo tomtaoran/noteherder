@@ -39,6 +39,8 @@ ul#notes a:active {
   color: inherit;
   text-decoration: none;
 }
+/*This is important: a, link, visited, hover, active
+ and Sequence Matters*/
 
 
 
