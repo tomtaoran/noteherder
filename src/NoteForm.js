@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './NoteForm.css'
+import ReactQuill from 'react-quill'
+import './quill.css'
 
 class NoteForm extends Component{
     // constructor(props){
@@ -72,6 +74,14 @@ class NoteForm extends Component{
        
     }
 
+    handleBodyChanges = (value) =>{
+    const note = {...this.props.currentNote}
+    note["body"] =  value;
+    this.props.saveNote(note);
+  }
+
+
+
     handleDelete= (ev)=>{
        // console.log(ev.target.value)
        this.props.deleteNote(this.props.thisNote)
@@ -87,10 +97,13 @@ class NoteForm extends Component{
             <p>
                 <input type="text" name="title" placeholder="Title your note" onChange={this.handleChanges} value={this.props.thisNote.title}/>
               </p>
-              <p>
+
+              {/*<p>
                 <textarea name="body" placeholder="Just start typing..." onChange={this.handleChanges} value={this.props.thisNote.body}></textarea>
-              </p>
-              
+              </p>*/}
+              <ReactQuill id="body"  onChange={this.handleBodyChanges} defaultValue={this.props.thisNote.body}/>
+
+
               <button type="button" onClick={this.handleDelete}><i className="fa fa-trash-o"></i></button>
             </form>
             </div>
