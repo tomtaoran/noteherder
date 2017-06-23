@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import './NoteForm.css'
-import ReactQuill from 'react-quill'
-import './quill.css'
+import RichTextEditor from 'react-rte'
 
 class NoteForm extends Component{
+    state = {
+        value: RichTextEditor.createEmptyValue()
+    }
     // constructor(props){
     //     //NOTE: If you have props, remember, constructor have to take the props
     //     super(props)
@@ -20,12 +22,15 @@ class NoteForm extends Component{
                 const note = nextProps.notes[newId]
                 if (note) {
                 this.props.setCurrentNote(note)
+                this.setState({ value: RichTextEditor.createValueFromString(nextProps.thisNote.body, 'html')})
                 } else if (Object.keys(nextProps.notes).length > 0) {
+            
             this.props.history.push('/notes')
             //This part tells us if we manually submit a wired notes
         }else{
             if (this.props.thisNote.id) {
             //debugger
+            this.setState({ value: RichTextEditor.createEmptyValue() })
       this.props.resetCurrentNote()
       //This is for creating new note and if statement detectes for loading (at that point, this.props can be Object Empty)
     }
@@ -74,11 +79,15 @@ class NoteForm extends Component{
        
     }
 
-    handleBodyChanges = (value) =>{
-    const note = {...this.props.currentNote}
-    note["body"] =  value;
-    this.props.saveNote(note);
-  }
+  handleBodyChanges = (value) => {
+        const note = {...this.props.thisNote}
+        //console.log("before change:"+note.body)
+        this.setState({ value })
+        note.body = value.toString('html');
+        //console.log("after change:" +note.body)
+        this.props.saveNote(note)
+    }
+
 
 
 
@@ -93,7 +102,7 @@ class NoteForm extends Component{
         // here is what I am talking about: if we are an empty object, there is no definition on this.state.note.title and it is uncontrolled initially then...
         return (
             <div className="NoteForm">
-            <form onSubmit={this.handleSubmit}>
+            <form>
             <p>
                 <input type="text" name="title" placeholder="Title your note" onChange={this.handleChanges} value={this.props.thisNote.title}/>
               </p>
@@ -101,7 +110,12 @@ class NoteForm extends Component{
               {/*<p>
                 <textarea name="body" placeholder="Just start typing..." onChange={this.handleChanges} value={this.props.thisNote.body}></textarea>
               </p>*/}
-              <ReactQuill id="body"  onChange={this.handleBodyChanges} defaultValue={this.props.thisNote.body}/>
+              <RichTextEditor 
+                                className="body"
+                                value={this.state.value} 
+                                onChange={this.handleBodyChanges} 
+                                placeholder="Just start typing..."
+                            />
 
 
               <button type="button" onClick={this.handleDelete}><i className="fa fa-trash-o"></i></button>

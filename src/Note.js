@@ -21,7 +21,7 @@ const Note=(props)=>{
               </div>
               <div className="note-body">
                 <p>
-                  {props.note.body}
+                  {props.note.body.toString('html').replace(/(<(\/*\w+( \w+=".+")*)>)|(&nbsp;)/g, '')}
                 </p>
               </div>
             </div>

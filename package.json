@@ -8,7 +8,8 @@
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
     "react-quill": "^1.0.0-rc.3",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "react-rte": "^0.11.0"
   },
   "devDependencies": {
     "gh-pages": "^1.0.0",

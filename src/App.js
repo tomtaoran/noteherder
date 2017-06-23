@@ -4,6 +4,7 @@ import './App.css';
 import Main from './Main'
 import base, {auth} from './base'
 import SignIn from './SignIn'
+import RichTextEditor from 'react-rte'
 
 class App extends Component {
   constructor(){
@@ -17,7 +18,7 @@ class App extends Component {
       thisNote:{
         id:null,
         title:'',
-        body:''
+        body:RichTextEditor.createEmptyValue().toString('html')
       },
     }
   }
@@ -86,7 +87,7 @@ class App extends Component {
     return{
       id: null,
       title:'',
-      body:'',
+      body:RichTextEditor.createEmptyValue().toString('html'),
     }
   }
 
